@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Login/Sign Up</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/auth.css" />
+  </head>
+  <body>
+    <h1 class="back">Lorene Pay</h1>
+    <div class="box">
+      <form class="verification-form">
+        <% if (err) { %>
+        <h2 class="error erActive"><%= err %></h2>
+        <% } else { %>
+        <h2 class="error"></h2>
+        <% } %>
+        <h1>Verify Email</h1>
+        <h2>
+          A verification code was sent to your mail
+          <strong>(Remember to check spam!)</strong>
+        </h2>
+        <div style="margin-top: 5vh" class="input">
+          <label for="code">Your Email</label>
+          <input
+            maxlength="50"
+            type="email"
+            value="<%= mail %>"
+            readonly
+            required
+            name="mail"
+            style="color: #4d4d4e"
+          />
+        </div>
+        <div style="margin-top: 5vh" class="input">
+          <label for="code">Enter OTP</label>
+          <input
+            maxlength="50"
+            type="number"
+            name="otp"
+            required
+            placeholder="Verification Code"
+          />
+        </div>
+        <button style="margin-top: 5vh" type="submit">Verify Email</button>
+
+        <div class="count">
+          <h6>OTP expires in <span></span>s</h6>
+          <a class="resend" href="/auth/resend?mail=<%= mail %>">Resend OTP</a>
+        </div>
+      </form>
+
+      <div class="banner">
+        <img src="../assets/mail.svg" alt="" />
+      </div>
+    </div>
+
+    <a id="toDash" href="/dashboard" style="display: none">dash</a>
+
+    <hr />
+
+    <script src="../../js/core/jquery.min.js"></script>
+    <script>
+      document
+        .querySelector("button[type='submit']")
+        .addEventListener("click", async (e) => {
+          e.preventDefault();
+          if (
+            document.querySelector("input[name='otp']").value.length < 4 &&
+            document.querySelector("input[name='mail']").value !== ""
+          ) {
+            document.querySelector(".error").textContent = "Invalid OTP Length";
+            document.querySelector(".error").classList.add("erActive");
+          } else {
+            let mail = document.querySelector("input[name='mail']").value;
+            let otp = document.querySelector("input[name='otp']").value;
+
+            const res = await fetch(`https://lorenepay.com/auth/ver`, {
+              method: "POST",
+              headers: { "Content-type": "application/json" },
+              body: JSON.stringify({
+                mail: mail,
+                otp: otp,
+              }),
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+              document.querySelector(".error").textContent = "Invalid OTP";
+              document.querySelector(".error").classList.add("erActive");
+            } else if (data.expired) {
+              document.querySelector(".error").textContent = "OTP Expired";
+              document.querySelector(".error").classList.add("erActive");
+            } else if (data.success) {
+              localStorage.removeItem("otp-time");
+              $("#toDash")[0].click();
+            }
+          }
+        });
+
+      let timeleft = localStorage.getItem("otp-time")
+        ? localStorage.getItem("otp-time")
+        : 60;
+      let downloadTimer = setInterval(function () {
+        if (timeleft <= 0) {
+          clearInterval(downloadTimer);
+          document.querySelector(".count h6").textContent = "OTP Expired";
+          document.querySelector(".count h6").style.color = "#f12a0f";
+          document.querySelector(".resend").style.display = "inline";
+          localStorage.removeItem("otp-time");
+        }
+        document.querySelector(".count span").textContent = timeleft;
+        localStorage.setItem("otp-time", timeleft);
+        timeleft -= 1;
+      }, 1000);
+
+      document
+        .querySelector("input[name='otp']")
+        .addEventListener("keyup", () => {
+          if (document.querySelector("input[name='otp']").value.length > 4) {
+            document.querySelector("input[name='otp']").value = document
+              .querySelector("input[name='otp']")
+              .value.slice(0, -1);
+          }
+        });
+
+      setInterval(() => {
+        let act = document.querySelector(".erActive");
+        if (act) {
+          if (!act.getAttribute("data-time")) {
+            act.setAttribute("data-time", 3);
+          } else {
+            if (act.getAttribute("data-time") == 0) {
+              act.classList.remove("erActive");
+              act.removeAttribute("data-time");
+            } else {
+              act.setAttribute(
+                "data-time",
+                parseInt(act.getAttribute("data-time")) - 1
+              );
+            }
+          }
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

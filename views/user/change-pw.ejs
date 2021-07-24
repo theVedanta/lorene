@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Change Password</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/auth.css" />
+  </head>
+  <body>
+    <h1 class="back">Lorene Pay</h1>
+    <div class="box">
+      <form action="/change-pw?_method=PUT" method="POST">
+        <% if (error) { %>
+        <h2 class="error erActive"><%= error %></h2>
+        <% } else { %>
+        <h2 class="error"></h2>
+        <% } %>
+        <h1>Change Password</h1>
+        <h2>Make a new Password</h2>
+        <div style="margin-top: 5vh" class="input">
+          <label for="old">Old Password</label>
+          <input maxlength="50" type="password" name="old" required />
+        </div>
+        <div style="margin-top: 5vh" class="input">
+          <label for="password">New Password</label>
+          <input maxlength="50" type="password" name="password" required />
+        </div>
+        <button style="margin-top: 5vh" type="submit">Save</button>
+      </form>
+
+      <div class="banner">
+        <img src="/assets/change.svg" alt="" />
+        <h3
+          style="
+            color: rgb(22, 25, 72);
+            opacity: 0.7;
+            margin-top: 10%;
+            font-weight: 500;
+          "
+        >
+          Protect account with a password you'll remember.
+        </h3>
+      </div>
+    </div>
+
+    <script>
+      setInterval(() => {
+        let act = document.querySelector(".erActive");
+        if (act) {
+          if (!act.getAttribute("data-time")) {
+            act.setAttribute("data-time", 3);
+          } else {
+            if (act.getAttribute("data-time") == 0) {
+              act.classList.remove("erActive");
+              act.removeAttribute("data-time");
+            } else {
+              act.setAttribute(
+                "data-time",
+                parseInt(act.getAttribute("data-time")) - 1
+              );
+            }
+          }
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

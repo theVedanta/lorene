@@ -1,0 +1,17 @@
+#terms,
+#privacy,
+#cancellation {
+  margin: 6vh 0;
+}
+h1 {
+  font-size: 2.4vw;
+}
+h2 {
+  font-size: 1vw;
+  margin-top: 4vh;
+  text-transform: uppercase;
+}
+
+p {
+  text-align: justify;
+}

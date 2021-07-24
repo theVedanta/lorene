@@ -1,0 +1,40 @@
+{
+  "name": "lorene-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main --tls-min-v1.0",
+    "dev": "nodemon main --tls-min-v1.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.5.1",
+    "ejs": "^3.1.6",
+    "email-existence": "^0.1.6",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.2.6",
+    "gridfs-stream": "^1.1.1",
+    "ifsc": "^1.5.13",
+    "jsonwebtoken": "^8.5.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.12.7",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.1",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "otp-generator": "^2.0.1",
+    "pdfkit": "^0.12.1",
+    "sendotp": "^1.2.9",
+    "share-buttons": "^1.7.0",
+    "tinify": "^1.6.0-beta.2",
+    "uniqid": "^5.3.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

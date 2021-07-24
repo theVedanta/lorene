@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - View Paylink</title>
+  </head>
+  <body>
+    <h1>Payment Details</h1>
+    <hr />
+
+    <h2>Payment ID</h2>
+    <h3><%= paylink.url %></h3>
+    <br />
+
+    <h2>Payment Decription</h2>
+    <h3><%= paylink.description %></h3>
+    <br />
+
+    <h2>Payment Status</h2>
+    <h3><%= paylink.status %></h3>
+    <br />
+
+    <h2>Payment Amount</h2>
+    <h3><%= paylink.amount %></h3>
+    <br />
+
+    <% if (!paylink.multiple) { %>
+    <h2>Customer Name</h2>
+    <h3><%= paylink.customer.name %></h3>
+    <br />
+
+    <h2>Customer Phone Number</h2>
+    <h3><%= paylink.customer.phone %></h3>
+    <br />
+
+    <h2>Customer Email</h2>
+    <h3><%= paylink.customer.mail %></h3>
+    <br />
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - View Proforma Invoice</title>
+  </head>
+  <body>
+    <h1><%= invoice.name %></h1>
+    <h2><%= invoice.summary %></h2>
+
+    <hr />
+
+    <h2><%= user.name %></h2>
+    <h3>
+      <%= user.address.line1 %>
+      <br />
+      <%= user.address.line2 %>
+      <br />
+      <%= user.address.city %> - <%= user.address.zip %>
+      <br />
+      <%= user.address.state %>
+    </h3>
+
+    <hr />
+
+    <h2>Bill to: <%= cust.name %></h2>
+    <br />
+    <% if (invoice.invoiceNumber) { %>
+    <h3>Invoice Number: <%= invoice.invoiceNumber %></h3>
+    <% } %>
+    <h3>
+      Invoice Date: <%= months[invoice.date.getMonth()] %> <%=
+      invoice.date.getDate() %>, <%= invoice.date.getFullYear() %>
+    </h3>
+    <h3>
+      Payment Due: <%= months[invoice.due.getMonth()] %> <%=
+      invoice.due.getDate() %>, <%= invoice.due.getFullYear() %>
+    </h3>
+
+    <hr />
+
+    <table>
+      <tr>
+        <th>Items</th>
+        <th>Rate/Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+
+      <% for (let item of invoice.items) { %>
+      <tr style="background: #9f9f9f">
+        <td>
+          <%= item.name %> <br />
+          <%= item.description %>
+        </td>
+        <td><%= item.price %></td>
+        <td><%= item.quantity %></td>
+        <td><%= parseInt(item.price) * parseInt(item.quantity) %></td>
+      </tr>
+      <% } %>
+    </table>
+
+    <h3>Subtotal: Rs. <%= invoice.subTotal %></h3>
+    <% if (invoice.discount) { %>
+    <h3>
+      Discount(<%= invoice.discount %>%) - Rs. <%= invoice.subTotal *
+      (invoice.discount/100) %>
+    </h3>
+    <% } %> <% if (invoice.tax) { %> <% for (let taxName of
+    Object.keys(invoice.taxObj)) { %>
+    <h3>
+      <%= taxName %>(<%= invoice.taxObj[taxName] %>%) - Rs. <%=
+      (invoice.discount ? (invoice.subTotal - (invoice.subTotal *
+      (invoice.discount/100))) : invoice.subTotal) * (invoice.tax/100) %>
+    </h3>
+    <% } %> <% } %>
+    <hr />
+    <h2>Total: Rs. <%= invoice.total %></h2>
+  </body>
+</html>

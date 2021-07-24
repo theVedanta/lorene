@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= page.name %> - Lorene Pay</title>
+    <style>
+      .share-btn > a {
+        border: 1px solid #ccc;
+        padding: 5px;
+        font-size: 12px;
+        font-family: Verdana, Arial;
+      }
+      .share-btn > a:hover {
+        cursor: pointer;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <h2><%= user.name %></h2>
+    <hr />
+    <h1><%= page.name %></h1>
+    <h3>Product Images:</h3>
+    <br />
+    <% for (let img of page.images) { %>
+    <img width="200" src="/img/<%= img %>" alt="Product Image" />
+    <% } %> <% if (page.description) { %>
+    <h3>Product Description:</h3>
+    <p><%= page.description %></p>
+    <% } %> <% if (page.social) { %>
+    <div class="share-btn">
+      <a class="btn-facebook" data-id="fb">Facebook</a>
+      <a class="btn-twitter" data-id="tw">Twitter</a>
+      <a class="btn-telegram" data-id="tg">Telegram</a>
+      <a class="btn-whatsapp" data-id="wa">Whatsapp</a>
+    </div>
+    <% } %> <% if (page.contact) { %>
+    <br />
+    <h2>Contact Us:</h2>
+    <% if (page.contact.mail) { %>
+    <span><i class="fas fa-envelope"></i></span>
+    <span><%= page.contact.mail %></span>
+    <br />
+    <% } %> <% if (page.contact.phone) { %>
+    <span><i class="fas fa-phone"></i></span>
+    <span><%= page.contact.phone %></span>
+    <br />
+    <% } %> <% } %> <% if (page.terms) { %>
+    <h3>Terms and Conditions / Shipping Info:</h3>
+    <p><%= page.terms %></p>
+    <% } %>
+    <hr />
+    <% if (page.priceType === "fixed" || page.priceType === "quantity") { %>
+    Price:
+    <h3 id="price"><%= page.price %></h3>
+    <% if (page.discount) { %> Discount:
+    <h3 id="disc"><%= page.discount %></h3>
+    <% } %> <% if (page.tax) { %> Tax:
+    <h3 id="tax"><%= page.tax %></h3>
+    <% } %> <% if (page.priceType === "quantity") { %>
+    <br />
+    <label for="quantity">Quantity</label>
+    <input
+      value="1"
+      type="number"
+      name="quantity"
+    />
+    <% } %> <% } else { %>
+    <h2>Enter Price</h2>
+    <input type="number" name="customerPrice" id="cp" />
+    <% } %>
+
+    <h2>Total:</h2>
+    <h2 id="total"><%= page.total %></h2>
+
+    <br />
+    <button>Pay</button>
+
+    <% if (page.social) { %>
+    <script src="../../js/share-buttons.js"></script>
+    <% } %>
+    <script src="../../js/product.js"></script>
+  </body>
+</html>

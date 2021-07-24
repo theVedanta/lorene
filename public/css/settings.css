@@ -1,0 +1,336 @@
+.btn {
+  padding: 1.2vh 1.2vw;
+  font-size: 1vw;
+}
+.col {
+  margin: 1.4vh 0;
+}
+.card {
+  padding: 0.6vh 2vw;
+  box-shadow: 0 0 20px rgba(18, 18, 19, 0.218);
+  width: 99%;
+  max-height: 87vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 1.2vh;
+  height: 87vh;
+}
+.card-stats .card-body .numbers .card-category {
+  font-size: 1.2vw;
+  white-space: nowrap;
+}
+.card h4 {
+  font-size: 3vh;
+}
+.card hr {
+  margin: 1vh 0;
+  width: 100%;
+}
+.card-head,
+.min-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  padding: 1vh 0;
+  background: #fff;
+  z-index: 999;
+}
+.min-head {
+  top: 6.6vh;
+}
+.card-head::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 16vh;
+  z-index: -1;
+  background: #fff;
+}
+.card-head .left i,
+.min-head .left i {
+  color: #51cbce;
+}
+.card-head h4,
+form h4,
+.min-head h4 {
+  font-weight: 600;
+  font-size: 1.6vw;
+}
+form h4 {
+  font-size: 1.3vw !important;
+}
+.card-head .right,
+.min-head .right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-head .btn,
+.min-head .btn {
+  height: 100%;
+  font-size: 1vw;
+  text-transform: none;
+  border-radius: 9px;
+  margin-left: 1vw;
+}
+.card-head h6 {
+  text-transform: none;
+  margin: 0;
+  color: #0e5456;
+  font-size: 1.12vw;
+  font-weight: 500;
+  margin-right: 1vw;
+}
+.card-head h6 span {
+  color: #e34f4f;
+}
+.btn-danger {
+  background: #e34f4f;
+}
+.file-inp-hold {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.file-inp-hold .btn {
+  margin: 0;
+}
+.file-inp-hold label {
+  width: 40%;
+  margin: 0;
+}
+.file-inp-hold input {
+  background: transparent;
+  border: none;
+  padding-left: 0;
+  width: 50%;
+}
+.file-inp-hold input:hover {
+  border: none;
+}
+input[type="file"] {
+  color: transparent;
+}
+.file-inp {
+  cursor: pointer;
+}
+.file-inp::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.file-inp::before {
+  content: "Select file";
+  display: inline-block;
+  background: #51cbce;
+  color: #fff;
+  border-radius: 9px;
+  padding: 1vh 1vw;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+.file-inp:hover::before {
+  background: #3f9ea0;
+}
+#error {
+  font-size: 1.6vw;
+  font-weight: 600;
+}
+.acc-pages {
+  display: flex;
+  margin-top: 3.4vh;
+  border-bottom: 1px #70707041 solid;
+}
+.acc-pages button {
+  outline: 0;
+  background: transparent;
+  border: none;
+  color: #0e545677;
+  cursor: pointer;
+  font-size: 1.12vw;
+  font-weight: 600;
+  margin-right: 3vw;
+  padding: 0 2vw;
+  padding-bottom: 2vh;
+  transition: all 0.2s;
+  position: relative;
+}
+.acc-pages .acc-act {
+  color: #0e5456;
+}
+.acc-pages button::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 50px;
+  transition: all 0.2s;
+}
+.acc-pages .acc-act::after {
+  background: #51cbce;
+}
+.org {
+  padding: 0 2vw;
+  margin-top: 3vh;
+}
+.org h5,
+.org span {
+  color: #434175;
+  font-weight: 500;
+  margin: 0;
+  font-size: 1vw;
+}
+.org span {
+  width: 10%;
+  font-size: 1.2vw;
+}
+.detail-box {
+  width: 60%;
+}
+.org h5 {
+  width: 30%;
+}
+.unit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3.6vh;
+  width: 100%;
+}
+.unit .input {
+  width: 60%;
+}
+.unit .input input,
+.unit .input select {
+  cursor: default;
+}
+.min-head {
+  border-bottom: 1px rgba(153, 153, 153, 0.562) solid;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 0.85vh 1vw;
+  text-transform: none;
+  font-size: 1.1vw;
+}
+.table > thead > tr > th,
+.table > tbody > tr > th {
+  padding-top: 0;
+}
+.table-cont {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  margin-top: 2vh;
+}
+.table-responsive {
+  overflow-y: scroll;
+  padding: 0 0;
+}
+.table .btn {
+  text-transform: none;
+}
+.tax {
+  padding: 0 1vw;
+}
+.togg button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.wait {
+  margin-bottom: 3vh;
+}
+#the {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .table > thead > tr > th,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > td {
+    font-size: 1vw;
+  }
+}
+@media (max-width: 800px) {
+  .form-box {
+    width: 80vw;
+    font-size: 1.6vw;
+  }
+  form h1 {
+    font-size: 3.6vw;
+  }
+  .form-control {
+    font-size: 1.6vw;
+  }
+  form i {
+    font-size: 4vw;
+  }
+  .card {
+    padding: 1vh 5vw;
+  }
+  .table > thead > tr > th,
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > td,
+  .table > tbody > tr > td,
+  .table > tfoot > tr > td {
+    font-size: 2vw;
+  }
+  .table-responsive {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+@media (max-width: 500px) {
+  .form-box {
+    width: 95vw;
+    font-size: 2vw;
+    padding: 3vh 8vw;
+  }
+  form h1 {
+    font-size: 5.6vw;
+  }
+  form i {
+    font-size: 6vw;
+  }
+  .form-control {
+    font-size: 2vw;
+    padding: 0.4vh 1vw;
+  }
+  .table > tbody > tr > th,
+  .table > tfoot > tr > th,
+  .table > thead > tr > th {
+    font-size: 3vw;
+  }
+  .table-responsive {
+    font-size: 3vw;
+  }
+  .table-responsive .btn {
+    padding: 1vh 3vw;
+  }
+  .card {
+    padding: 1.2vh 7vw;
+  }
+  .table > thead > tr > th {
+    font-size: 2.4vw;
+  }
+  .table-responsive {
+    padding: 1vh 0;
+  }
+}

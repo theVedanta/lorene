@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Invoice</title>
+  </head>
+  <body>
+    <h1><%= invoice.name %></h1>
+
+    <h2><%= user.name %></h2>
+    <h3>
+      <%= user.address.line1 %> <br />
+      <%= user.address.line2 %> <br />
+      <%= user.address.state %> - <%= user.address.zip %>
+    </h3>
+
+    <h4>Bill to</h4>
+    <h2><%= cust.businessName %></h2>
+    <hr />
+    <h4>Invoice Details</h4>
+    <h3>
+      Invoice Number: <%= invoice.invoiceNumber %>
+      <br />
+      Payment Date: <%= invoice.date.getDate() %> <%=
+      months[invoice.date.getMonth() + 1] %> <%= invoice.date.getFullYear() %>
+      <br />
+      Payment Due: <%= invoice.due.getDate() %> <%=
+      months[invoice.due.getMonth() + 1] %> <%= invoice.due.getFullYear() %>
+      <br />
+      Amount Due: ₹<%= invoice.total %>
+      <br />
+    </h3>
+
+    <hr />
+
+    <table>
+      <tr>
+        <th>Items</th>
+        <th>Rate/Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+
+      <% for (let item of invoice.items) { %>
+      <tr style="background: #9f9f9f">
+        <td>
+          <%= item.name %> <br />
+          <%= item.description %>
+        </td>
+        <td><%= item.price %></td>
+        <td><%= item.quantity %></td>
+        <td><%= parseInt(item.price) * parseInt(item.quantity) %></td>
+      </tr>
+      <% } %>
+    </table>
+
+    <h3>Subtotal: Rs. <%= invoice.subTotal %></h3>
+    <% if (invoice.discount) { %>
+    <h3>
+      Discount(<%= invoice.discount %>%) - Rs. <%= invoice.subTotal *
+      (invoice.discount/100) %>
+    </h3>
+    <% } %> <% if (invoice.tax) { %> <% for (let taxName of
+    Object.keys(invoice.taxObj)) { %>
+    <h3>
+      <%= taxName %>(<%= invoice.taxObj[taxName] %>%) - Rs. <%=
+      (invoice.discount ? (invoice.subTotal - (invoice.subTotal *
+      (invoice.discount/100))) : invoice.subTotal) * (invoice.tax/100) %>
+    </h3>
+    <% } %> <% } %>
+    <hr />
+    <h2>Total: Rs. <%= invoice.total %></h2>
+
+    <hr />
+    <form
+      onsubmit="document.querySelector('form button').disabled = true;"
+      action="/invoices/download/<%= invoice.invoiceID %>"
+      method="POST"
+    >
+      <button class="btn" type="submit">Download</button>
+    </form>
+    <hr />
+
+    <button>PAY</button>
+  </body>
+</html>

@@ -1,0 +1,328 @@
+* {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  box-sizing: border-box;
+  font-family: Poppins;
+}
+.show {
+  display: flex !important;
+  padding: 4vh 0;
+}
+/* INPUT ---------------------------------------------------------------------------------------------------------------------- */
+.required::before {
+  content: "*";
+  color: red;
+}
+.input {
+  margin-top: 3vh;
+}
+.input input,
+.input select {
+  background: #f9f9f9;
+  border: 1px solid #dcdcdc;
+  border-radius: 9px;
+  font-size: 1vw;
+  color: #434175;
+  padding: 1.4vh 0.8vw;
+  width: 100%;
+  transition: all 0.3s;
+}
+.input label {
+  color: #434175;
+  font-size: 1vw;
+  font-weight: 500;
+}
+.input input:focus,
+.input select:focus,
+.input input:hover,
+.input select:hover {
+  border: 1px solid #6c63ff;
+}
+/* INPUT end ------------------------------------------------------------------------------------------------------------------ */
+.wrapper {
+  background: #e6eeff 0% 0% no-repeat padding-box;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper-active {
+  filter: brightness(55%);
+}
+.wrapper .left,
+.wrapper .right {
+  width: 32%;
+  height: 68vh;
+}
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(15%);
+}
+.left img {
+  height: 90%;
+}
+.right {
+  height: auto;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 1) 59%,
+    rgba(241, 244, 250, 1) 81%,
+    rgba(236, 238, 241, 1) 100%
+  );
+  border-radius: 28px;
+  box-shadow: -14px 18px 69px #00000017;
+  transform: translateX(-15%);
+  padding: 3.4vh 2vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #5e629c;
+  height: auto !important;
+}
+.right * {
+  font-weight: 400;
+}
+.right img {
+  width: 7vw;
+}
+.right h1 {
+  color: #434175;
+  font-size: 2vw;
+  font-weight: 600;
+  position: relative;
+  padding: 1vh 0;
+  margin-bottom: 3vh;
+}
+.right h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20%;
+  height: 4px;
+  border-radius: 50px;
+  background: #434175;
+}
+.right h2 {
+  padding-bottom: 2.6vh;
+  font-size: 1.5vw;
+}
+legend {
+  margin-top: 1.2vh;
+  font-size: 0.9vw;
+  font-weight: 500;
+}
+.pBtn {
+  padding: 1.4vh 2vw;
+  color: #fff;
+  border: none;
+  background: #6c63ff;
+  font-size: 1vw;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0px 1px 9px #00000042;
+  margin: 2vh 0;
+  margin-bottom: 3.6vh;
+  transition: all 0.3s;
+}
+.pBtn:hover {
+  transform: scale(1.1);
+}
+/* Popup ------------------------------------------------------------------------------------------------------------ */
+.popup {
+  width: 42vw;
+  height: auto;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(245, 246, 247, 1) 0%,
+    rgba(255, 255, 255, 1) 72%,
+    rgba(238, 241, 246, 1) 88%,
+    rgba(236, 238, 241, 1) 100%
+  );
+  border-radius: 12px;
+  padding: 3vh 3vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+  color: #5e629c;
+}
+.popup-active {
+  opacity: 1;
+  pointer-events: all;
+}
+.details {
+  display: flex;
+  padding-bottom: 2vh;
+}
+.detLeft {
+  text-align: left;
+  width: 50%;
+}
+.detRight {
+  text-align: right;
+  width: 50%;
+}
+.details legend {
+  margin: 0;
+}
+.popupNav {
+  position: absolute;
+  top: 50%;
+  left: 2.6vw;
+  height: 34vh;
+  width: 4.8vw;
+  transform: translate(0, -50%);
+  background: #fff;
+  box-shadow: -1px 1px 29px #0000002e;
+  border-radius: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3vh 0;
+}
+.popupNav .opt {
+  color: #6c63ff;
+  font-size: 1.3vw;
+  padding: 1vh;
+  width: 3vw;
+  height: 3vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+.popupNav i {
+  transition: all 0.3s;
+}
+.popNavActive {
+  background: #6c63ff;
+}
+.popNavActive i {
+  color: #fff !important;
+}
+.popup h1 {
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.8vw;
+  margin-bottom: 2vh;
+}
+/* MAINS ------------------------------------------------------------------------------------------------ */
+.popupContent {
+  padding-left: calc(3vw + 4.8vw);
+  width: 100%;
+  display: flex;
+  display: none;
+}
+.popUser h1 {
+  margin-bottom: 0;
+}
+.popUser {
+  flex-direction: column;
+  padding-right: 1.2vw;
+}
+.popUser button {
+  margin-top: 3vh;
+}
+
+/* POP OPTIONS */
+.popOpt {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  display: none;
+}
+.popOpt button {
+  width: 43%;
+  margin-bottom: 4vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1vw;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #5e629c;
+  transition: all 0.3s;
+}
+.popOpt button:hover {
+  transform: translateY(-10px);
+}
+.popOpt img {
+  width: 80%;
+}
+/* PAYMODES ------------------------------------------------------------------------------------------------------------ */
+.card {
+  flex-direction: column;
+  display: none;
+}
+.card .row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.card .row .input {
+  width: 30%;
+}
+.card label {
+  font-size: 0.8vw;
+}
+.card .pBtn {
+  margin-top: 4vh;
+  width: 40%;
+}
+/* net ----------------------------- */
+.net,
+.upi {
+  flex-direction: column;
+  width: 100%;
+  display: none;
+}
+.bank-imgs {
+  display: flex;
+  margin-top: 3vh;
+  width: 100%;
+  height: 10vh;
+  justify-content: space-between;
+}
+.bank-img-hold {
+  width: 22%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bank-imgs img {
+  width: 80%;
+  object-fit: cover;
+}
+.net .bank-imgs img {
+  height: 100%;
+  width: auto;
+}
+.net .input,
+.upi .input {
+  margin-top: 6vh;
+}
+.net .pBtn,
+.upi .pBtn {
+  margin-top: 8vh !important;
+}

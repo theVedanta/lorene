@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Login/Sign Up</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/auth.css" />
+  </head>
+  <body>
+    <h1 class="back">Lorene Pay</h1>
+    <div class="box">
+      <form
+        class="verification-form"
+        action="/auth/forgot/reset?mail=<%= mail %>"
+        method="POST"
+        onsubmit="localStorage.removeItem('reset-time')"
+      >
+        <% if (err) { %>
+        <h2 class="error erActive"><%= err %></h2>
+        <% } else { %>
+        <h2 class="error"></h2>
+        <% } %>
+        <h1>Reset Password</h1>
+        <h2>Make a New Password for your account</h2>
+        <div style="margin-top: 5vh" class="input">
+          <label for="password">Password</label>
+          <input maxlength="50" type="password" name="password" required />
+        </div>
+        <button style="margin-top: 5vh" type="submit">Reset</button>
+
+        <div class="count">
+          <h6>Your reset session ends in <span></span>s</h6>
+        </div>
+      </form>
+
+      <div class="banner">
+        <img src="/assets/forgot.svg" alt="" />
+        <h3
+          style="
+            color: rgb(22, 25, 72);
+            opacity: 0.7;
+            margin-top: 10%;
+            font-weight: 500;
+          "
+        >
+          Don't worry, We got you
+        </h3>
+      </div>
+    </div>
+
+    <script>
+      let timeleft = localStorage.getItem("reset-time")
+        ? localStorage.getItem("reset-time")
+        : 420;
+      let downloadTimer = setInterval(function () {
+        if (timeleft <= 0) {
+          clearInterval(downloadTimer);
+          document.querySelector(".count h6").textContent = "Session Expired";
+          document.querySelector(".count h6").style.color = "#f12a0f";
+          localStorage.removeItem("reset-time");
+        }
+        document.querySelector(".count span").textContent = timeleft;
+        localStorage.setItem("reset-time", timeleft);
+        timeleft -= 1;
+      }, 1000);
+
+      setInterval(() => {
+        let act = document.querySelector(".erActive");
+        if (act) {
+          if (!act.getAttribute("data-time")) {
+            act.setAttribute("data-time", 3);
+          } else {
+            if (act.getAttribute("data-time") == 0) {
+              act.classList.remove("erActive");
+              act.removeAttribute("data-time");
+            } else {
+              act.setAttribute(
+                "data-time",
+                parseInt(act.getAttribute("data-time")) - 1
+              );
+            }
+          }
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

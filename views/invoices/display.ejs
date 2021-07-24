@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Invoices</title>
+        <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,400,500,600,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./../css/paper-dashboard.min.css?v=2.0.1" rel="stylesheet" />
+
+    <style>
+      .wrapper {
+        transition: all 0.6s;
+      }
+      .col {
+        margin: 1vh 0;
+      }
+      .wrapper-active {
+        filter: brightness(75%);
+        pointer-events: none;
+      }
+      .card {
+        padding: 0.6vh 2vw;
+        box-shadow: 0 0 20px rgba(18, 18, 19, 0.218);
+        width: 99%;
+        overflow: hidden;
+        margin-bottom: 1.2vh;
+        height: 87vh;
+      }
+      .card-stats .card-body .numbers .card-category {
+        font-size: 1.2vw;
+        white-space: nowrap;
+      }
+      .card h4 {
+        font-size: 3vh;
+      }
+      .card hr {
+        margin: 1vh 0;
+        width: 100%;
+      }
+      .table > thead > tr > th,
+      .table > tbody > tr > th,
+      .table > tfoot > tr > th,
+      .table > thead > tr > td,
+      .table > tbody > tr > td,
+      .table > tfoot > tr > td {
+        padding: 0.85vh 0;
+        text-transform: none;
+        font-size: 1.1vw;
+      }
+      .table > thead > tr > th,
+      .table > tbody > tr > th {
+        padding-top: 0;
+      }
+      .table-cont {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        min-height: 80vh;
+      }
+      .table-responsive {
+        overflow-y: scroll;
+        padding: 3vh 0;
+        min-height: 80vh;
+      }
+      .table .btn {
+        text-transform: none;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+      }
+      .card-head .left i {
+        color: #51cbce;
+      }
+      .card-head h4 {
+        font-weight: 600;
+        font-size: 1.6vw;
+      }
+      .card-head .right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card-head .input {
+        display: flex;
+        align-items: center;
+      }
+      .card-head .input {
+        background-color: transparent;
+        border: 2px #51cbce solid;
+        padding: 0 0.8vw;
+        color: #51cbce;
+        font-size: 1.1vw;
+        border-radius: 13px;
+      }
+      .card-head .input input {
+        background: transparent;
+        border: none;
+        padding: 1vh 0.6vw;
+        font-size: 1vw;
+        font-weight: 500;
+      }
+      .card-head .input input::placeholder {
+        color: #51cbce;
+      }
+      .card-head .btn {
+        height: 100%;
+        font-size: 1vw;
+        text-transform: none;
+        border-radius: 9px;
+        margin-left: 1vw;
+      }
+      .btn-danger {
+        background: #e34f4f;
+      }
+      .table td .btn-danger:hover {
+        background: red;
+      }
+      .toggle {
+        outline: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.657);
+      }
+      .link-data {
+        display: flex;
+        align-items: center;
+      }
+      .link-data div {
+        width: 18vw;
+        background: #74747413;
+        padding: 1vh 1vw;
+        margin-right: 1vw;
+        overflow: hidden;
+        overflow-x: scroll;
+        border-radius: 10px;
+      }
+      .link-data a {
+        white-space: nowrap;
+        color: #0e5456;
+      }
+      .link-data i {
+        cursor: pointer;
+        color: #51cbce;
+      }
+      .no-data-hold {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+      }
+      .no-hr {
+        display: none;
+      }
+      .no-data-hold h4 {
+        color: #0e5456;
+        font-weight: 600;
+      }
+      .act-drop {
+        width: 100%;
+        position: relative;
+      }
+      .drop-opt {
+        cursor: pointer;
+        border: 1px solid #ccc;
+        padding: 1vh 1vw;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+        border-radius: 5px;
+      }
+      .drop-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #f2f2f2;
+        position: absolute;
+        top: 120%;
+        left: 0;
+        width: 80%;
+        z-index: 999999;
+        padding: 1vh 1vw;
+        border-radius: 5px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s;
+      }
+      .drop-link {
+        width: 100%;
+        padding: 1.2vh 0;
+        margin: 1vh 0 !important;
+        font-size: 0.8vw;
+      }
+      .drop-link button {
+        width: 100%;
+        padding: 1.2vh 0;
+        font-size: 0.8vw;
+      }
+      .drop-links form {
+        margin: 0;
+        padding: 0;
+      }
+      .drop-links-active {
+        pointer-events: all;
+        opacity: 1;
+      }
+      .drop-links .btn {
+        background: #51cbce;
+      }
+      .add-tax {
+        pointer-events: all;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 36vw;
+        overflow-y: scroll;
+        transform: translate(-50%, -50%);
+        padding: 2vh 2vw;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .add-tax h3 {
+        position: relative;
+        font-weight: 500;
+        font-size: 4vh;
+        margin: 0;
+      }
+      .add-tax h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        margin-top: 1vh;
+        left: 0;
+        width: 40%;
+        height: 3px;
+        background: #51cbce;
+      }
+      .add-tax h5 {
+        margin: 0 !important;
+        color: #434175;
+        font-weight: 600;
+        font-size: 1.1vw;
+      }
+      .add-tax .unit{
+        margin: 0;
+        margin-top: 2vh;
+      }
+      .required::before {
+        content: "*";
+        color: red;
+      }
+      .add-tax-active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .add-tax .card-head::before {
+        background: transparent;
+      }
+      .wrapper-active {
+        filter: brightness(75%);
+        pointer-events: none;
+      }
+      .add-tax i {
+        position: absolute;
+        top: 1vh;
+        right: 1vw;
+        font-size: 2vw;
+        cursor: pointer;
+      }
+      .detail-box {
+        width: 60%;
+      }
+      .unit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3.6vh;
+        width: 100%;
+      }
+      .unit .input {
+        width: 60%;
+      }
+      .unit .input input,
+      .unit .input select {
+        cursor: default;
+      }
+      form h6 {
+        text-transform: none;
+        font-size: 1vw;
+        font-weight: 600;
+      }
+      .item {
+        display: flex;
+        align-items: center;
+      }
+      .item i {
+        transform: translateY(0.8vw);
+      }
+      form input,
+      form select,
+      form textarea {
+        transition: all 0.2s;
+      }
+      form h4 {
+        font-size: 2vw;
+        font-weight: 500;
+        position: relative;
+        display: inline;
+      }
+      form h4::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 65%;
+        height: 3px;
+        border-radius: 50px;
+        background: #51cbce;
+      }
+      .col {
+        margin: 1.4vh 0;
+      }
+      .required::before {
+        content: "*";
+        color: red;
+      }
+      .input input,
+      .input select,
+      .input textarea {
+        background: #f9f9f9;
+        border: 1px solid #dcdcdc;
+        border-radius: 9px;
+        font-size: 1vw;
+        color: #434175;
+        padding: 1.4vh 0.8vw;
+        width: 100%;
+      }
+      .input label,
+      #tax-lab {
+        color: #434175;
+        font-size: 1vw;
+        font-weight: 500;
+      }
+      .input input:focus,
+      .input select:focus,
+      .input input:hover,
+      .input select:hover,
+      .input textarea:focus,
+      .input textarea:hover {
+        border: 1px solid #6c63ff;
+      }
+      form .btn-primary {
+        font-size: 1.2vw;
+        font-weight: 600;
+        text-transform: none;
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+      form h5 {
+        font-weight: 600;
+      }
+      .card-head input:hover {
+        border: 0 !important;
+        outline: 0 !important;
+      }
+      .card-head input:focus {
+        border: 0 !important;
+        outline: 0 !important;
+      }
+      .upload {
+        text-align: center;
+        padding-bottom: 1vh;
+        color: #208184;
+        font-size: 1.2vw;
+        font-weight: 500;
+      }
+      .upload a {
+        color: #0e5456;
+      }
+      .upload a:hover {
+        text-decoration: none;
+      }
+      .upload a i {
+        color: #208184;
+      }
+      @media (max-width: 1100px) {
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+          font-size: 1vw;
+        }
+      }
+      @media (max-width: 800px) {
+        .form-box {
+          width: 80vw;
+          font-size: 1.6vw;
+        }
+        form h1 {
+          font-size: 3.6vw;
+        }
+        .form-control {
+          font-size: 1.6vw;
+        }
+        form i {
+          font-size: 4vw;
+        }
+        .card {
+          padding: 1vh 5vw;
+        }
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+          font-size: 2vw;
+        }
+        .table-responsive {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+      @media (max-width: 500px) {
+        .form-box {
+          width: 95vw;
+          font-size: 2vw;
+          padding: 3vh 8vw;
+        }
+        form h1 {
+          font-size: 5.6vw;
+        }
+        form i {
+          font-size: 6vw;
+        }
+        .form-control {
+          font-size: 2vw;
+          padding: 0.4vh 1vw;
+        }
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > th {
+          font-size: 3vw;
+        }
+        .table-responsive {
+          font-size: 3vw;
+        }
+        .table-responsive .btn {
+          padding: 1vh 3vw;
+        }
+        .card {
+          padding: 1.2vh 7vw;
+        }
+        .table > thead > tr > th {
+          font-size: 2.4vw;
+        }
+        .table-responsive {
+          padding: 1vh 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+        <div class="wrapper">
+          <div class="sidebar" data-color="white" data-active-color="danger">
+            <div
+              class="logo"
+              style="display: flex; justify-content: space-between"
+            >
+              <div class="ff">
+                <a href="/profile" class="simple-text logo-mini">
+                  <% if (user.logo) { %>
+                  <img src="/img/<%= user.logo %>" alt="" />
+                  <% } else { %>
+                  <img style="width: 70%" src="../assets/logoT.svg" alt="" />
+                  <% } %>
+                </a>
+                <a href="/profile" class="simple-text logo-normal">
+                  <%= user.name %>
+                </a>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  transform: translateY(-10%);
+                  margin-right: 1vw;
+                "
+                class="prof-opts"
+              >
+                <i
+                  style="font-size: 18px; cursor: pointer"
+                  class="fas fa-chevron-down"
+                ></i>
+              </div>
+            </div>
+            <div class="sidebar-wrapper">
+              <ul class="side-opts">
+                <li><a href="/change-pw">Change Password</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+              <ul class="nav">
+                <li>
+                  <a href="/dashboard">
+                    <i class="fas fa-home"></i>
+                    <p>Home</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/transactions">
+                    <i class="fas fa-money-check-alt"></i>
+                    <p>Transactions</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/settlements">
+                    <i class="fas fa-business-time"></i>
+                    <p>Settlements</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/refunds">
+                    <i class="fas fa-exchange-alt"></i>
+                    <p>Refunds</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/quotations">
+                    <i class="fas fa-tags"></i>
+                    <p>Quotations</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/proforma">
+                    <i class="fas fa-file-invoice"></i>
+                    <p>Proforma Invoices</p>
+                  </a>
+                </li>
+                <li class="active">
+                  <a href="#">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <p>Invoices</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/paylinks">
+                    <i class="fas fa-paperclip"></i>
+                    <p>Payment Links</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/pages">
+                    <i class="fas fa-newspaper"></i>
+                    <p>Pages</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/customers">
+                    <i class="fas fa-user-friends"></i>
+                    <p>Customers</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/account">
+                    <i class="fas fa-user-cog"></i>
+                    <p>My Account</p>
+                  </a>
+                </li>
+                <li>
+                  <a href="/settings">
+                    <i class="fas fa-cog"></i>
+                    <p>Settings</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="main-panel">
+            <nav
+              class="
+                navbar navbar-expand-lg navbar-absolute
+                fixed-top
+                navbar-transparent
+              "
+            >
+              <div class="container-fluid">
+                <div class="navbar-wrapper">
+                  <div class="navbar-toggle">
+                    <button type="button" class="navbar-toggler">
+                      <span class="navbar-toggler-bar bar1"></span>
+                      <span class="navbar-toggler-bar bar2"></span>
+                      <span class="navbar-toggler-bar bar3"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            <div class="content">
+              <!-- VERIFICATION ---------------------------------------------------------------- -->
+          <% if (!user.verified) { %>
+            <% if (verErr) { %>
+              <div class="row">
+              <div class="col">
+                <div class="upload"><%= verErr %></div>
+              </div>
+            </div>
+            <% } else if (user.bankInfo) { %>
+            <div class="row">
+              <div class="col">
+                <div class="upload">Your documents are under verification.</div>
+              </div>
+            </div>
+            <% } else { %>
+            <div class="row">
+              <div class="col">
+                <div class="upload">
+                  Please upload your documents
+                  <a href="/account"
+                    >here. &nbsp;<i class="fas fa-file-upload"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+            <% } %>
+          <% } %>
+              <div class="row">
+                <div class="col">
+                  <div class="card card-stats">
+                    <div class="card-head">
+                      <div class="left">
+                        <h4>
+                          <i class="fas fa-file-invoice-dollar"></i
+                          >&nbsp;&nbsp;Invoices
+                        </h4>
+                      </div>
+                      <div class="right">
+                        <div class="input">
+                          <i class="fas fa-search"></i>
+                          <input type="text" placeholder="Search" id="search" />
+                        </div>
+                        <a href="/invoices/add" class="btn btn-primary">
+                          <i class="fas fa-plus"></i>&nbsp;Add
+                        </a>
+                      </div>
+                    </div>
+                    <div class="table-cont">
+                      <div class="table-responsive">
+                        <table cellpadding="0" cellspacing="0" class="table">
+                          <thead class="text-primary">
+                            <tr>
+                              <th style="text-align: left">Invoice No.</th>
+                              <th class="url">URL</th>
+                              <th style="text-align: left">Created on</th>
+                              <th style="text-align: left">Amount</th>
+                              <th style="text-align: left">Status</th>
+                              <th style="text-align: left">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% for (let invoice of invoices) { %>
+                            <tr>
+                              <td class="name-data">
+                                <%= invoice.invoiceNumber %>
+                              </td>
+                              <td class="link-data">
+                                <div>
+                                  <a
+                                    target="_blank"
+                                    href="/invoices/<%= invoice.invoiceID %>"
+                                    >https://lorenepay.com/invoices/<%=
+                                    invoice.invoiceID %></a
+                                  >
+                                </div>
+                                <i class="fas fa-copy"></i>
+                              </td>
+                              <td>
+                                <%= invoice.createdAt.getDate() %>/<%=
+                                invoice.createdAt.getMonth() + 1 %>/<%=
+                                invoice.createdAt.getFullYear() %>
+                              </td>
+                              <td>₹<%= invoice.total %></td>
+                              <td><%= invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1) %></td>
+                              <td>
+                                <div class="act-drop">
+                                  <div class="drop-opt">
+                                    Select an Action&nbsp;&nbsp;<i class="fas fa-chevron-down"></i>
+                                  </div>
+                                  <div class="drop-links">
+                                    <% if (invoice.status === "unpaid") { %>
+                                    <a class="drop-link btn" href="/invoices/edit/<%= invoice._id %>"
+                                      >Edit</a
+                                    >
+                                    <p onclick="record(`<%= invoice.name %>`, `<%= invoice.summary %>`, `<%= invoice.due.getDate() %>/<%=
+                                invoice.due.getMonth() + 1 %>/<%=
+                                invoice.due.getFullYear() %>`, `<%= invoice._id %>`)" id="record" class="drop-link btn">Record a Payment</p>
+                                    <% } %>
+                                    <a class="drop-link btn" href="/invoices/duplicate/<%= invoice._id %>"
+                                      >Duplicate</a
+                                    >
+                                    <form class="drop-link"
+                                      action="/invoices/download/<%= invoice.invoiceID %>"
+                                      method="POST"
+                                    >
+                                      <button class="btn" type="submit">Download</button>
+                                    </form>
+                                    <a class="drop-link btn" href="/invoices/delete/<%= invoice._id %>"
+                                    >Delete</a
+                                    >
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                        <% if (invoices.length === 0) { %>
+                      <hr class="no-hr" style="display: flex" />
+                    <div class="no-data-hold" style="display: flex">
+                      <% } else { %>
+                        <hr class="no-hr" />
+                            <div class="no-data-hold" style="display: none">
+                          <% } %>
+                          <h4 class="no-data">No data to Display</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <footer class="footer" style="width: -webkit-fill-available">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="credits ml-auto">
+                      <span class="copyright">
+                        &copy; 2020 Lorene Pay. All Rights Reserved.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+
+        <form class="add-tax" method="POST">
+          <div class="card-head">
+            <h3>Record Payment</h3>
+            <i class="fas fa-times text-secondary"></i>
+          </div>
+
+          <div style="margin-top: 2vh" class="unit">
+            <h5>Name</h5>
+            <span>:</span>
+            <div class="input">
+              <input type="text" required readonly name="name" />
+            </div>
+          </div>
+          <div style="margin-top: 2vh" class="unit">
+            <h5>Summary</h5>
+            <span>:</span>
+            <div class="input">
+              <input type="text" required readonly  name="sum" />
+            </div>
+          </div>
+          <div style="margin-top: 2vh" class="unit">
+            <h5>Payment Due</h5>
+            <span>:</span>
+            <div class="input">
+              <input type="text" required readonly name="due" />
+            </div>
+          </div>
+          <div style="margin-top: 2vh" class="unit">
+            <h5>Paid Date</h5>
+            <span>:</span>
+            <div class="input">
+              <input type="date" required name="date" />
+            </div>
+          </div>
+          <div style="display: flex; align-items: center" class="mt-4">
+            <button type="submit" class="btn btn-primary text-white">Record</button>
+          </div>
+        </form>
+
+        <script src="/js/invoice.js"></script>
+        <script>
+          document.querySelector(".link-data").style.marginTop = "-1px";
+          document.querySelector(".link-data").style.marginBottom = "1px";
+        </script>
+        <script src="../../js/core/jquery.min.js"></script>
+        <script src="../../js/core/popper.min.js"></script>
+        <script src="../../js/core/bootstrap.min.js"></script>
+        <script src="../../js/paper-dashboard.min.js?v=2.0.1"></script>
+  </body>
+</html>

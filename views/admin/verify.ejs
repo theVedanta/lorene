@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Lorene Pay - Verify Merchant</title>
+  </head>
+  <body>
+    <h1>Verify Merchant</h1>
+    <hr />
+
+    <h2>Name: <%= user.name %></h2>
+    <h2>Email: <%= user.mail %></h2>
+    <h2>Phone Number: <%= user.phone %></h2>
+    <h2>Merchant Type: <%= user.type %></h2>
+    <h2>Bank Account Number: <%= user.bankInfo.number %></h2>
+    <h2>Bank Account Type: <%= user.bankInfo.type %></h2>
+    <h2>Bank IFSC: <%= user.bankInfo.ifsc %></h2>
+    <h2>Bank Branch: <%= user.bankInfo.branch %></h2>
+    <h2>Bank Address: <%= user.bankInfo.address %></h2>
+    <h2>Pan Card Number: <%= user.pan %></h2>
+    <h2>
+      Aadhaar Card Front:
+      <img width="200" src="/img/<%= user.aadhaarFront %>" />
+    </h2>
+    <h2>
+      Aadhaar Card Back: <img width="200" src="/img/<%= user.aadhaarBack %>" />
+    </h2>
+    <% if (user.type === "business") { %>
+    <h2>GST Number: <%= user.gst %></h2>
+    <% } %>
+
+    <form action="/admin/verify/<%= user.id %>?_method=PUT" method="POST">
+      <button type="submit">Verify User</button>
+    </form>
+    <a href="/admin">Back</a>
+  </body>
+</html>

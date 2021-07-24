@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Payment Link</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,400,500,600,700,900"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      referrerpolicy="no-referrer"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/pay.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="left"><img src="/assets/rs.svg" alt="" /></div>
+      <div class="right">
+        <h1>Payment Request</h1>
+
+        <legend>From</legend>
+        <h2><%= username %></h2>
+
+        <legend>Amount</legend>
+        <h2 style="font-weight: 700; font-size: 2vw">
+          ₹&nbsp;<%= paylink.amount %>
+        </h2>
+
+        <legend>Description</legend>
+        <h2><%= paylink.description %></h2>
+
+        <button class="pBtn" id="pay">Pay Now</button>
+
+        <legend style="font-weight: 500">Powered By</legend>
+        <img src="/assets/logo.svg" alt="" />
+      </div>
+    </div>
+
+    <div class="popup">
+      <div class="details">
+        <div class="detLeft">
+          <legend>From</legend>
+          <h2 style="font-weight: 400"><%= username %></h2>
+        </div>
+
+        <div class="detRight">
+          <legend>Amount</legend>
+          <h2 style="font-weight: 700">₹&nbsp;<%= paylink.amount %></h2>
+        </div>
+      </div>
+
+      <img style="width: 100%" src="/assets/dot.svg" alt="" />
+
+      <div class="popupNav">
+        <div id="optUser" class="opt popNavActive optClick">
+          <i class="fas fa-user"></i>
+        </div>
+        <div id="optOpt" class="opt">
+          <i class="fas fa-hand-holding-usd"></i>
+        </div>
+        <div id="optPay" class="opt">
+          <i class="far fa-credit-card"></i>
+        </div>
+        <div id="optRes" class="opt">
+          <i class="fas fa-receipt"></i>
+        </div>
+      </div>
+
+      <div class="popupContent popUser show">
+        <h1>Customer Details</h1>
+        <div>
+          <!-- above div is a potential form -->
+          <div class="input">
+            <label for="name">Name</label>
+            <input type="text" name="name" />
+          </div>
+          <div class="input">
+            <label for="user">Email</label>
+            <input type="email" name="mail" />
+          </div>
+          <div class="input">
+            <label for="name">Phone Number</label>
+            <input type="number" name="phone" />
+          </div>
+
+          <p
+            class="err"
+            style="
+              color: transparent;
+              font-size: 1vw;
+              font-weight: 500;
+              margin-top: 1vh;
+              pointer-events: none;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+            "
+          >
+            Please fill All the fields
+          </p>
+
+          <button id="cont" class="pBtn">Continue</button>
+        </div>
+      </div>
+
+      <div class="popupContent popOpt">
+        <h1>Payment Method</h1>
+        <button data-value="debit">
+          <img src="/assets/debit.png" alt="" />
+          Debit Card
+        </button>
+        <button data-value="credit">
+          <img src="/assets/credit.png" alt="" />
+          Credit Card
+        </button>
+        <button data-value="net">
+          <img src="/assets/net.png" alt="" />
+          Net Banking
+        </button>
+        <button data-value="upi">
+          <img src="/assets/upi.png" alt="" />
+          UPI
+        </button>
+
+        <input
+          type="text"
+          name="mode"
+          required
+          value=""
+          style="display: none"
+        />
+      </div>
+      <div class="popupContent popPay">
+        <div class="card">
+          <h1><span></span>&nbsp;Card</h1>
+          <div class="input">
+            <label for="number">Card Number</label>
+            <input type="number" name="cardNumber" />
+          </div>
+          <div class="row">
+            <div class="input">
+              <label for="expMonth">Expiry Month</label>
+              <input type="number" name="expMonth" />
+            </div>
+            <div class="input">
+              <label for="expYear">Expiry Year</label>
+              <input type="number" name="expYear" />
+            </div>
+            <div class="input">
+              <label for="cvv">CVV</label>
+              <input type="password" name="cvv" />
+            </div>
+          </div>
+          <div class="input">
+            <label for="nameOnCard">Name on Card</label>
+            <input type="text" name="nameOnCard" />
+          </div>
+          <button class="pBtn">Pay Now</button>
+        </div>
+
+        <div class="net">
+          <h1>Net Banking</h1>
+          <div class="bank-imgs">
+            <div class="bank-img-hold">
+              <img src="/assets/hdfc.png" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/icici.png" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/axis.png" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/kotak.png" alt="" />
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="bankName">Bank Name</label>
+            <select name="bankName">
+              <option value="hdfc">HDFC Bank</option>
+              <option value="icici">ICICI Bank</option>
+              <option value="axis">AXIS Bank</option>
+              <option value="kotak">Kotak Bank</option>
+            </select>
+          </div>
+
+          <button style="width: 35%" class="pBtn">Pay Now</button>
+        </div>
+
+        <div class="upi">
+          <h1>UPI</h1>
+          <div class="bank-imgs">
+            <div class="bank-img-hold">
+              <img src="/assets/gpay.svg" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/paytm.svg" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/bhim.svg" alt="" />
+            </div>
+            <div class="bank-img-hold">
+              <img src="/assets/phonepe.png" alt="" />
+            </div>
+          </div>
+
+          <div class="input">
+            <label for="upiId">UPI ID</label>
+            <input
+              type="text"
+              required
+              name="upiId"
+              placeholder="Enter your UPI ID"
+            />
+          </div>
+
+          <button style="width: 35%" class="pBtn">Pay Now</button>
+        </div>
+      </div>
+      <div class="popupContent popEnd"></div>
+    </div>
+
+    <script src="/js/pay.js"></script>
+  </body>
+</html>

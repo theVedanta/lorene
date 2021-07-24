@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Add Quotation Invoice</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,400,500,600,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./../css/paper-dashboard.min.css?v=2.0.1" rel="stylesheet" />
+
+    <style>
+      form input,
+      form select,
+      form textarea {
+        transition: all 0.2s;
+      }
+      form h4 {
+        font-size: 2vw;
+        font-weight: 500;
+        position: relative;
+        display: inline;
+      }
+      form h4::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 65%;
+        height: 3px;
+        border-radius: 50px;
+        background: #51cbce;
+      }
+      .col {
+        margin: 1.4vh 0;
+      }
+      .required::before {
+        content: "*";
+        color: red;
+      }
+      .input input,
+      .input select,
+      .input textarea {
+        background: #f9f9f9;
+        border: 1px solid #dcdcdc;
+        border-radius: 9px;
+        font-size: 1vw;
+        color: #434175;
+        padding: 1.4vh 0.8vw;
+        width: 100%;
+      }
+      .input label,
+      #tax-lab {
+        color: #434175;
+        font-size: 1vw;
+        font-weight: 500;
+      }
+      .input input:focus,
+      .input select:focus,
+      .input input:hover,
+      .input select:hover,
+      .input textarea:focus,
+      .input textarea:hover {
+        border: 1px solid #6c63ff;
+      }
+      form .btn-primary {
+        font-size: 1.2vw;
+        font-weight: 600;
+        text-transform: none;
+        padding-left: 2vw;
+        padding-right: 2vw;
+      }
+      form h5 {
+        font-weight: 600;
+      }
+      .card {
+        padding: 3vh 3vw;
+        box-shadow: 0 0 20px rgba(18, 18, 19, 0.218);
+        width: 99%;
+        overflow: hidden;
+        overflow-y: scroll;
+        margin-bottom: 5vh;
+        height: 87vh;
+      }
+      .card-stats .card-body .numbers .card-category {
+        font-size: 1.2vw;
+        white-space: nowrap;
+      }
+      .card h4 {
+        font-size: 3vh;
+        margin: 0;
+        margin-bottom: 2vh;
+      }
+      .card hr {
+        margin: 1vh 0;
+        width: 100%;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 3vh;
+      }
+      .card-head .left i {
+        color: #51cbce;
+      }
+      .card-head h4 {
+        font-weight: 600;
+        font-size: 1.6vw;
+      }
+      #err {
+        font-weight: 600;
+        color: #e34f4f;
+      }
+      .file-inp {
+        cursor: pointer;
+      }
+      .file-inp::-webkit-file-upload-button {
+        visibility: hidden;
+      }
+      .file-inp::before {
+        content: "Select file";
+        display: inline-block;
+        background: #51cbce;
+        color: #fff;
+        border-radius: 9px;
+        padding: 1vh 1vw;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
+      .file-inp:hover::before {
+        background: #3f9ea0;
+      }
+      .icons i {
+        font-size: 1.6vw;
+        color: #434175;
+        margin-right: 1vw;
+      }
+      .tax-col {
+        font-size: 1vw;
+        display: flex;
+        align-items: center;
+      }
+      .tax-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.4vh 0.4vw;
+        border: 1px #dcdcdc solid;
+        border-radius: 5px;
+        margin-right: 1vw;
+        background: #74747413;
+      }
+      .tax-col input {
+        width: 0.9vw;
+        height: 0.9vw;
+      }
+      .add-tax {
+        pointer-events: all;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 36vw;
+        overflow-y: scroll;
+        transform: translate(-50%, -50%);
+        padding: 2vh 2vw;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .add-tax h3 {
+        position: relative;
+        font-weight: 500;
+        font-size: 4vh;
+        margin: 0;
+      }
+      .add-tax h3::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        margin-top: 1vh;
+        left: 0;
+        width: 40%;
+        height: 3px;
+        background: #51cbce;
+      }
+      .add-tax h5 {
+        margin: 0 !important;
+        color: #434175;
+        font-weight: 600;
+        font-size: 1.1vw;
+      }
+      .add-tax .unit{
+        margin: 0;
+        margin-top: 2vh;
+      }
+      .required::before {
+        content: "*";
+        color: red;
+      }
+      .add-tax-active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .add-tax .card-head::before {
+        background: transparent;
+      }
+      .wrapper-active {
+        filter: brightness(75%);
+        pointer-events: none;
+      }
+      #makeTax {
+        font-size: 0.9vw;
+        margin-top: 2.5vh !important;
+        margin-bottom: 2.5vh !important;
+        padding: 1.5vh 0;
+        width: 35%;
+      }
+      .add-tax i {
+        position: absolute;
+        top: 1vh;
+        right: 1vw;
+        font-size: 2vw;
+        cursor: pointer;
+      }
+      .detail-box {
+        width: 60%;
+      }
+      .unit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3.6vh;
+        width: 100%;
+      }
+      .unit .input {
+        width: 60%;
+      }
+      .unit .input input,
+      .unit .input select {
+        cursor: default;
+      }
+      form h6 {
+        text-transform: none;
+        font-size: 1vw;
+        font-weight: 600;
+      }
+      .item {
+        display: flex;
+        align-items: center;
+      }
+      .item i {
+        transform: translateY(0.8vw);
+      }
+      @media (max-width: 800px) {
+        .card {
+          padding: 2vh 5vw;
+        }
+        .input input,
+        .input select {
+          padding: 0.8vh 1.7vw;
+          font-size: 1.7vw;
+        }
+      }
+      @media (max-width: 500px) {
+        .card {
+          padding: 1.2vh 7vw;
+        }
+        .card label {
+          font-size: 1.7vw;
+        }
+        .input input,
+        .input select {
+          padding-left: 5vw;
+          padding-right: 5vw;
+          font-size: 3vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo" style="display: flex; justify-content: space-between">
+          <div class="ff">
+            <a href="/profile" class="simple-text logo-mini">
+              <% if (user.logo) { %>
+              <img src="/img/<%= user.logo %>" alt="" />
+              <% } else { %>
+              <img style="width: 70%" src="../assets/logoT.svg" alt="" />
+              <% } %>
+            </a>
+            <a href="/profile" class="simple-text logo-normal">
+              <%= user.name %>
+            </a>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transform: translateY(-10%);
+              margin-right: 1vw;
+            "
+            class="prof-opts"
+          >
+            <i
+              style="font-size: 18px; cursor: pointer"
+              class="fas fa-chevron-down"
+            ></i>
+          </div>
+        </div>
+        <div class="sidebar-wrapper">
+          <ul class="side-opts">
+            <li><a href="/change-pw">Change Password</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+          <ul class="nav">
+            <li>
+              <a href="/dashboard">
+                <i class="fas fa-home"></i>
+                <p>Home</p>
+              </a>
+            </li>
+            <li>
+              <a href="/transactions">
+                <i class="fas fa-money-check-alt"></i>
+                <p>Transactions</p>
+              </a>
+            </li>
+            <li>
+              <a href="/settlements">
+                <i class="fas fa-business-time"></i>
+                <p>Settlements</p>
+              </a>
+            </li>
+            <li>
+              <a href="/refunds">
+                <i class="fas fa-exchange-alt"></i>
+                <p>Refunds</p>
+              </a>
+            </li>
+            <li class="active">
+              <a href="/quotations">
+                <i class="fas fa-tags"></i>
+                <p>Quotations</p>
+              </a>
+            </li>
+            <li>
+              <a href="/proforma">
+                <i class="fas fa-file-invoice"></i>
+                <p>Proforma Invoices</p>
+              </a>
+            </li>
+            <li>
+              <a href="/invoices">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <p>Invoices</p>
+              </a>
+            </li>
+            <li>
+              <a href="/paylinks">
+                <i class="fas fa-paperclip"></i>
+                <p>Payment Links</p>
+              </a>
+            </li>
+            <li>
+              <a href="/pages">
+                <i class="fas fa-newspaper"></i>
+                <p>Pages</p>
+              </a>
+            </li>
+            <li>
+              <a href="/customers">
+                <i class="fas fa-user-friends"></i>
+                <p>Customers</p>
+              </a>
+            </li>
+            <li>
+              <a href="/account">
+                <i class="fas fa-user-cog"></i>
+                <p>My Account</p>
+              </a>
+            </li>
+            <li>
+              <a href="/settings">
+                <i class="fas fa-cog"></i>
+                <p>Settings</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="main-panel">
+        <nav
+          class="
+            navbar navbar-expand-lg navbar-absolute
+            fixed-top
+            navbar-transparent
+          "
+        >
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <div class="navbar-toggle">
+                <button type="button" class="navbar-toggler">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="content">
+          <div class="row">
+            <div class="col">
+              <div class="card card-stats">
+                <form action="/quotations/add" method="POST">
+                  <div class="card-head">
+                    <div class="left">
+                      <h4>Create Quotations</h4>
+                    </div>
+                    <div class="right">
+                      <h5 id="err" style="color: red"><%= message %></h5>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="input required">
+                        <label for="name">Name</label>
+                        <input
+                          name="name"
+                          required
+                          value="Quotation"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="col">
+                      <div class="input required">
+                        <label for="summary">Summary</label>
+                        <input
+                          type="text"
+                          name="summary"
+                          required
+                          placeholder="Summary for Quotation"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr />
+
+                  <div class="row">
+                    <div class="col">
+                      <h5>Address:</h5>
+                      <div class="row">
+                        <div class="col">
+                          <div class="input">
+                            <label>Name</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.name %>"
+                            />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input">
+                            <label>Line 1</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.address.line1 %>"
+                            />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input">
+                            <label>Line 2</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.address.line2 %>"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col">
+                          <div class="input">
+                            <label>City</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.address.city %>"
+                            />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input">
+                            <label>ZIP Code</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.address.zip %>"
+                            />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input">
+                            <label>State</label>
+                            <input
+                              type="text"
+                              readonly
+                              value="<%= user.address.state %>"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr />
+
+                  <div class="row">
+                    <div class="col">
+                      <h5>Details:</h5>
+                      <div class="row">
+                        <div class="col">
+                          <div class="input required">
+                            <label for="cust">Customer</label>
+                            <select placeholder="Customer" required name="cust">
+
+                              <% if (custs.length === 0) { %>
+                                <option value="">Make a Customer to use Invoices</option>
+                              <% } else { %>
+                                <option value="">Select a Customer</option>
+                              <% } %> 
+                              <% for (let cust of custs) { %>
+                              <option value="<%= cust.id %>">
+                                <%= cust.businessName %>
+                              </option>
+                              <% } %>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col">
+                          <div class="input">
+                            <label for="invoiceNumber">Invoice Number</label>
+                            <input
+                              type="text"
+                              name="invoiceNumber"
+                              placeholder="(Eg. quo_001)"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col">
+                          <div class="input required">
+                            <label>Quoted Date:</label>
+                            <input required type="date" name="date" />
+                          </div>
+                        </div>
+
+                        <div class="col"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr />
+
+                  <h5>Items:</h5>
+                  <h6 style="color: red" id="itEr"></h6>
+                  <div class="items">
+                    <div class="item row">
+                      <div class="col">
+                        <div class="input required">
+                          <label for="itemName">Item Name</label>
+                          <input required type="text" name="itemName" />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="input required">
+                          <label for="itemDescription">Item Description</label>
+                          <input type="text" required name="itemDescription" />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="input required">
+                          <label for="itemPrice">Price</label>
+                          <input
+                            type="number"
+                            required
+                            name="itemPrice"
+                            value="0"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col">
+                        <div class="input required">
+                          <label for="itemQuantity">Quantity</label>
+                          <input
+                            type="number"
+                            required
+                            name="itemQuantity"
+                            value="1"
+                          />
+                        </div>
+                      </div>
+                      <i
+                        style="
+                          cursor: pointer;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          font-size: 1.4vw;
+                        "
+                        class="remove-item fas fa-times text-secondary"
+                      >
+                      </i>
+                    </div>
+                  </div>
+                  <h5 class="btn btn-primary" style="border-radius: 50%; padding: 0; width: 3vw; height: 3vw; display: flex; justify-content: center; align-items: center" id="add-item">
+                    <i class="fas fa-plus"></i>
+                  </h5>
+
+                  <h5 style="margin-top: 5vh">
+                    Subtotal: <span id="subtot">0</span>
+                  </h5>
+
+                  <hr />
+
+                  <div class="row">
+                    <div class="col">
+                      <div class="input">
+                        <label for="discount">Discount (%)</label>
+                        <input
+                          required
+                          type="number"
+                          name="discount"
+                          value="0"
+                        />
+                      </div>
+                    </div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col">
+                      <% if (taxes) { %>
+                      <h5 id="tax-lab">Select Tax:- </label>
+                      <div class="row">
+                        <div class="col tax-col">
+                          <% for (let tax of taxes) { %>
+                          <div class="tax-box">
+                            <input
+                              onchange="tx(event)"
+                              type="checkbox"
+                              name="tax"
+                              value="<%= tax.offer %>"
+                            />&nbsp; <%= tax.name %>
+                          </div>
+                          <% } %>
+                          <h6 style="font-size: 0.7vw; padding: 1vh 1vw;" class="btn" id="taxCreate">
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Create new Tax
+                          </h6>
+                        </div>
+                      </div>
+                      <% } %>
+                    </div>
+                  </div>
+
+                  <h5>Total: <span id="total">0</span></h5>
+
+                  <% if (user.type === "business") { %>
+                  <div class="row">
+                    <div class="col">
+                      <div class="input">
+                        <label for="gst">GST Number</label>
+                        <input type="checkbox" name="gst" />
+                      </div>
+                    </div>
+
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                  </div>
+                  <% } %>
+
+                  <hr />
+                  <button class="btn btn-primary" type="submit">Create</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="add-tax">
+      <div class="card-head">
+        <h3>Create New tax</h3>
+        <i class="fas fa-times text-secondary"></i>
+      </div>
+      <div style="margin-top: 2vh" class="unit">
+        <h5>Tax Name</h5>
+        <span>:</span>
+        <div class="input">
+          <input type="text" required name="name" />
+        </div>
+      </div>
+      <div class="unit">
+        <h5>Tax Amt.&nbsp;(%)</h5>
+        <span>:</span>
+        <div class="input">
+          <input required type="number" name="offer" value="0" />
+        </div>
+      </div>
+      <div style="display: flex; align-items: center">
+        <h5 class="btn btn-primary text-white" id="makeTax">Create</h5>
+        <p class="text-danger"></p>
+      </div>
+    </form>
+
+    <script src="../../js/core/jquery.min.js"></script>
+    <script src="../../js/core/popper.min.js"></script>
+    <script src="../../js/core/bootstrap.min.js"></script>
+    <script src="../../js/paper-dashboard.min.js?v=2.0.1"></script>
+    <script src="../js/add-invoice.js"></script>
+
+  </body>
+</html>

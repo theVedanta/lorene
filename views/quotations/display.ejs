@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lorene Pay - Quotation Invoices</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:200,400,500,600,700,900"
+      rel="stylesheet"
+    />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet" />
+    <link href="./../css/paper-dashboard.min.css?v=2.0.1" rel="stylesheet" />
+
+    <style>
+      .wrapper {
+        transition: all 0.6s;
+      }
+      .col {
+        margin: 1vh 0;
+      }
+      .wrapper-active {
+        filter: brightness(75%);
+        pointer-events: none;
+      }
+      .card {
+        padding: 0.6vh 2vw;
+        box-shadow: 0 0 20px rgba(18, 18, 19, 0.218);
+        width: 99%;
+        overflow: hidden;
+        margin-bottom: 1.2vh;
+        height: 87vh;
+      }
+      .card-stats .card-body .numbers .card-category {
+        font-size: 1.2vw;
+        white-space: nowrap;
+      }
+      .card h4 {
+        font-size: 3vh;
+      }
+      .card hr {
+        margin: 1vh 0;
+        width: 100%;
+      }
+      .table > thead > tr > th,
+      .table > tbody > tr > th,
+      .table > tfoot > tr > th,
+      .table > thead > tr > td,
+      .table > tbody > tr > td,
+      .table > tfoot > tr > td {
+        padding: 0.85vh 0;
+        text-transform: none;
+        font-size: 1.1vw;
+      }
+      .table > thead > tr > th,
+      .table > tbody > tr > th {
+        padding-top: 0;
+      }
+      .table-cont {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        min-height: 80vh;
+      }
+      .table-responsive {
+        overflow-y: scroll;
+        padding: 3vh 0;
+        min-height: 80vh;
+      }
+      .table .btn {
+        text-transform: none;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+      }
+      .card-head .left i {
+        color: #51cbce;
+      }
+      .card-head h4 {
+        font-weight: 600;
+        font-size: 1.6vw;
+      }
+      .card-head .right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card-head .input {
+        display: flex;
+        align-items: center;
+      }
+      .card-head .input {
+        background-color: transparent;
+        border: 2px #51cbce solid;
+        padding: 0 0.8vw;
+        color: #51cbce;
+        font-size: 1.1vw;
+        border-radius: 13px;
+      }
+      .card-head .input input {
+        background: transparent;
+        border: none;
+        padding: 1vh 0.6vw;
+        font-size: 1vw;
+        font-weight: 500;
+      }
+      .card-head .input input::placeholder {
+        color: #51cbce;
+      }
+      .card-head .btn {
+        height: 100%;
+        font-size: 1vw;
+        text-transform: none;
+        border-radius: 9px;
+        margin-left: 1vw;
+      }
+      .btn-danger {
+        background: #e34f4f;
+      }
+      .table td .btn-danger:hover {
+        background: red;
+      }
+      .toggle {
+        outline: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.657);
+      }
+      .link-data {
+        display: flex;
+        align-items: center;
+        margin-top: -1px;
+      }
+      .link-data div {
+        width: 18vw;
+        background: #74747413;
+        padding: 1vh 1vw;
+        margin-right: 1vw;
+        overflow: hidden;
+        overflow-x: scroll;
+        border-radius: 10px;
+      }
+      .link-data a {
+        white-space: nowrap;
+        color: #0e5456;
+      }
+      .link-data i {
+        cursor: pointer;
+        color: #51cbce;
+      }
+      .no-data-hold {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+      }
+      .no-hr {
+        display: none;
+      }
+      .no-data-hold h4 {
+        color: #0e5456;
+        font-weight: 600;
+      }
+      .act-drop {
+        width: 100%;
+        position: relative;
+      }
+      .drop-opt {
+        cursor: pointer;
+        border: 1px solid #ccc;
+        padding: 1vh 1vw;
+        width: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1vw;
+        border-radius: 5px;
+      }
+      .drop-links {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #f2f2f2;
+        position: absolute;
+        top: 120%;
+        left: 0;
+        width: 80%;
+        z-index: 999999;
+        padding: 1vh 1vw;
+        border-radius: 5px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s;
+      }
+      .drop-link {
+        width: 100%;
+        padding: 1.2vh 0;
+        margin: 1vh 0 !important;
+        font-size: 0.8vw;
+      }
+      .drop-link button {
+        width: 100%;
+        padding: 1.2vh 0;
+        font-size: 0.8vw;
+      }
+      .drop-links form {
+        margin: 0;
+        padding: 0;
+      }
+      .drop-links-active {
+        pointer-events: all;
+        opacity: 1;
+      }
+      .drop-links .btn {
+        background: #51cbce;
+      }
+      .upload {
+        text-align: center;
+        padding-bottom: 1vh;
+        color: #208184;
+        font-size: 1.2vw;
+        font-weight: 500;
+      }
+      .upload a {
+        color: #0e5456;
+      }
+      .upload a:hover {
+        text-decoration: none;
+      }
+      .upload a i {
+        color: #208184;
+      }
+      @media (max-width: 1100px) {
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+          font-size: 1vw;
+        }
+      }
+      @media (max-width: 800px) {
+        .form-box {
+          width: 80vw;
+          font-size: 1.6vw;
+        }
+        form h1 {
+          font-size: 3.6vw;
+        }
+        .form-control {
+          font-size: 1.6vw;
+        }
+        form i {
+          font-size: 4vw;
+        }
+        .card {
+          padding: 1vh 5vw;
+        }
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+          font-size: 2vw;
+        }
+        .table-responsive {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+      @media (max-width: 500px) {
+        .form-box {
+          width: 95vw;
+          font-size: 2vw;
+          padding: 3vh 8vw;
+        }
+        form h1 {
+          font-size: 5.6vw;
+        }
+        form i {
+          font-size: 6vw;
+        }
+        .form-control {
+          font-size: 2vw;
+          padding: 0.4vh 1vw;
+        }
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > th {
+          font-size: 3vw;
+        }
+        .table-responsive {
+          font-size: 3vw;
+        }
+        .table-responsive .btn {
+          padding: 1vh 3vw;
+        }
+        .card {
+          padding: 1.2vh 7vw;
+        }
+        .table > thead > tr > th {
+          font-size: 2.4vw;
+        }
+        .table-responsive {
+          padding: 1vh 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar" data-color="white" data-active-color="danger">
+        <div class="logo" style="display: flex; justify-content: space-between">
+          <div class="ff">
+            <a href="/profile" class="simple-text logo-mini">
+              <% if (user.logo) { %>
+              <img src="/img/<%= user.logo %>" alt="" />
+              <% } else { %>
+              <img style="width: 70%" src="../assets/logoT.svg" alt="" />
+              <% } %>
+            </a>
+            <a href="/profile" class="simple-text logo-normal">
+              <%= user.name %>
+            </a>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transform: translateY(-10%);
+              margin-right: 1vw;
+            "
+            class="prof-opts"
+          >
+            <i
+              style="font-size: 18px; cursor: pointer"
+              class="fas fa-chevron-down"
+            ></i>
+          </div>
+        </div>
+        <div class="sidebar-wrapper">
+          <ul class="side-opts">
+            <li><a href="/change-pw">Change Password</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+          <ul class="nav">
+            <li>
+              <a href="/dashboard">
+                <i class="fas fa-home"></i>
+                <p>Home</p>
+              </a>
+            </li>
+            <li>
+              <a href="/transactions">
+                <i class="fas fa-money-check-alt"></i>
+                <p>Transactions</p>
+              </a>
+            </li>
+            <li>
+              <a href="/settlements">
+                <i class="fas fa-business-time"></i>
+                <p>Settlements</p>
+              </a>
+            </li>
+            <li>
+              <a href="/refunds">
+                <i class="fas fa-exchange-alt"></i>
+                <p>Refunds</p>
+              </a>
+            </li>
+            <li class="active">
+              <a href="#">
+                <i class="fas fa-tags"></i>
+                <p>Quotations</p>
+              </a>
+            </li>
+            <li>
+              <a href="/proforma">
+                <i class="fas fa-file-invoice"></i>
+                <p>Proforma Invoices</p>
+              </a>
+            </li>
+            <li>
+              <a href="/invoices">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <p>Invoices</p>
+              </a>
+            </li>
+            <li>
+              <a href="/paylinks">
+                <i class="fas fa-paperclip"></i>
+                <p>Payment Links</p>
+              </a>
+            </li>
+            <li>
+              <a href="/pages">
+                <i class="fas fa-newspaper"></i>
+                <p>Pages</p>
+              </a>
+            </li>
+            <li>
+              <a href="/customers">
+                <i class="fas fa-user-friends"></i>
+                <p>Customers</p>
+              </a>
+            </li>
+            <li>
+              <a href="/account">
+                <i class="fas fa-user-cog"></i>
+                <p>My Account</p>
+              </a>
+            </li>
+            <li>
+              <a href="/settings">
+                <i class="fas fa-cog"></i>
+                <p>Settings</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="main-panel">
+        <nav
+          class="
+            navbar navbar-expand-lg navbar-absolute
+            fixed-top
+            navbar-transparent
+          "
+        >
+          <div class="container-fluid">
+            <div class="navbar-wrapper">
+              <div class="navbar-toggle">
+                <button type="button" class="navbar-toggler">
+                  <span class="navbar-toggler-bar bar1"></span>
+                  <span class="navbar-toggler-bar bar2"></span>
+                  <span class="navbar-toggler-bar bar3"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="content">
+          <!-- VERIFICATION ---------------------------------------------------------------- -->
+          <% if (!user.verified) { %> <% if (verErr) { %>
+          <div class="row">
+            <div class="col">
+              <div class="upload"><%= verErr %></div>
+            </div>
+          </div>
+          <% } else if (user.bankInfo) { %>
+          <div class="row">
+            <div class="col">
+              <div class="upload">Your documents are under verification.</div>
+            </div>
+          </div>
+          <% } else { %>
+          <div class="row">
+            <div class="col">
+              <div class="upload">
+                Please upload your documents
+                <a href="/account"
+                  >here. &nbsp;<i class="fas fa-file-upload"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+          <% } %> <% } %>
+          <div class="row">
+            <div class="col">
+              <div class="card card-stats">
+                <div class="card-head">
+                  <div class="left">
+                    <h4>
+                      <i class="fas fa-file-contract"></i>&nbsp;&nbsp;Quotations
+                    </h4>
+                  </div>
+                  <div class="right">
+                    <div class="input">
+                      <i class="fas fa-search"></i>
+                      <input type="text" placeholder="Search" id="search" />
+                    </div>
+                    <a href="/quotations/add" class="btn btn-primary">
+                      <i class="fas fa-plus"></i>&nbsp;Add
+                    </a>
+                  </div>
+                </div>
+                <div class="table-cont">
+                  <div class="table-responsive">
+                    <table cellpadding="0" cellspacing="0" class="table">
+                      <thead class="text-primary">
+                        <tr>
+                          <th style="text-align: left">Invoice No.</th>
+                          <th style="text-align: left">Customer</th>
+                          <th style="text-align: left">Created on</th>
+                          <th style="text-align: left">Amount</th>
+                          <th style="text-align: left">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for (let invoice of invoices) { %>
+                        <tr>
+                          <td class="name-data">
+                            <%= invoice.invoiceNumber %>
+                          </td>
+                          <td><%= invoice.custName %></td>
+                          <td>
+                            <%= invoice.createdAt.getDate() %>/<%=
+                            invoice.createdAt.getMonth() + 1 %>/<%=
+                            invoice.createdAt.getFullYear() %>
+                          </td>
+                          <td>₹<%= invoice.total %></td>
+                          <td>
+                            <div class="act-drop">
+                              <div class="drop-opt">
+                                Select an Action&nbsp;&nbsp;<i
+                                  class="fas fa-chevron-down"
+                                ></i>
+                              </div>
+                              <div class="drop-links">
+                                <a
+                                  class="drop-link btn"
+                                  href="/quotations/edit/<%= invoice._id %>"
+                                  >Edit</a
+                                >
+                                <a
+                                  class="drop-link btn"
+                                  href="/quotations/duplicate/<%= invoice._id %>"
+                                  >Duplicate</a
+                                >
+                                <a
+                                  class="drop-link btn"
+                                  href="/quotations/move/<%= invoice._id %>?to=pro"
+                                  >Move to Proforma</a
+                                >
+                                <a
+                                  class="drop-link btn"
+                                  href="/quotations/move/<%= invoice._id %>?to=inv"
+                                  >Move to Invoices</a
+                                >
+                                <form
+                                  class="drop-link btn"
+                                  action="/quotations/download/<%= invoice.invoiceID %>"
+                                  method="POST"
+                                >
+                                  <button class="btn" type="submit">
+                                    Download
+                                  </button>
+                                </form>
+                                <a
+                                  class="drop-link btn"
+                                  href="/quotations/delete/<%= invoice._id %>"
+                                  >Delete</a
+                                >
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <% } %>
+                      </tbody>
+                    </table>
+                    <% if (invoices.length === 0) { %>
+                    <hr class="no-hr" style="display: flex" />
+                    <div class="no-data-hold" style="display: flex">
+                      <% } else { %>
+                      <hr class="no-hr" />
+                      <div class="no-data-hold" style="display: none">
+                        <% } %>
+                        <h4 class="no-data">No data to Display</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <footer class="footer" style="width: -webkit-fill-available">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="credits ml-auto">
+                    <span class="copyright">
+                      &copy; 2020 Lorene Pay. All Rights Reserved.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.querySelector(".link-data").style.marginTop = "-1px";
+      document.querySelector(".link-data").style.marginBottom = "1px";
+    </script>
+    <script src="../../js/invoice.js"></script>
+    <script src="../../js/core/jquery.min.js"></script>
+    <script src="../../js/core/popper.min.js"></script>
+    <script src="../../js/core/bootstrap.min.js"></script>
+    <script src="../../js/paper-dashboard.min.js?v=2.0.1"></script>
+  </body>
+</html>
