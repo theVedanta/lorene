@@ -3,8 +3,6 @@ const router = express.Router();
 const Admin = require("../../models/admin");
 const jwt = require("jsonwebtoken");
 
-// Creds: theVedanta - paawani_12
-
 // Auth
 router.use("/auth", checkNotAdminAuth, require("./auth"));
 
