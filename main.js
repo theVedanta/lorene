@@ -22,6 +22,7 @@ async function connectDB() {
   app.listen(PORT, () => console.log(`Listening on ${PORT}...`));
 }
 connectDB();
+
 // GRIDFS SETTINGS
 const conn = mongoose.connection;
 let gfs;
