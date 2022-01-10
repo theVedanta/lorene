@@ -33,7 +33,7 @@ body {
   overflow: hidden;
   text-align: center;
   font-weight: 700;
-  color: #fff;
+  color: #fff; 
   opacity: 0.4;
   z-index: -1;
 }
