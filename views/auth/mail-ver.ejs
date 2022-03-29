@@ -90,7 +90,7 @@
             let mail = document.querySelector("input[name='mail']").value;
             let otp = document.querySelector("input[name='otp']").value;
 
-            const res = await fetch(`https://lorenepay.com/auth/ver`, {
+            const res = await fetch(`http://localhost:4000/auth/ver`, {
               method: "POST",
               headers: { "Content-type": "application/json" },
               body: JSON.stringify({
@@ -101,7 +101,9 @@
 
             const data = await res.json();
 
-            if (data.error) {
+            console.log(data)
+
+            if (data.Error) {
               document.querySelector(".error").textContent = "Invalid OTP";
               document.querySelector(".error").classList.add("erActive");
             } else if (data.expired) {

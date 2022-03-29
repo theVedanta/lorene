@@ -87,7 +87,7 @@ router.post("/register", async (req, res) => {
                 return res.redirect("/err");
               } else {
                 res.render("auth/mail-ver", { mail: body.mail, err: false });
-                setTimeout(() => expireOtp(body.mail, true), 60000);
+                setTimeout(() => expireOtp(body.mail, true), 360000);
               }
             });
           } catch (err) {
@@ -125,7 +125,7 @@ router.post("/register", async (req, res) => {
                     mail: body.mail,
                     err: "This Email is not verified, please check Email",
                   });
-                  setTimeout(() => expireOtp(body.mail, true), 60000);
+                  setTimeout(() => expireOtp(body.mail, true), 360000);
                 }
               });
             } else {
@@ -167,6 +167,7 @@ router.post("/ver", async (req, res) => {
   try {
     const unAuthUser = await UnAuthUser.findOne({ mail: body.mail });
 
+    console.log(unAuthUser)
     if (!unAuthUser.expired) {
       if (await bcrypt.compare(body.otp, unAuthUser.otp)) {
         const user = {
@@ -243,7 +244,7 @@ router.get("/resend", async (req, res) => {
           mail: req.query.mail,
           err: "OTP Sent Again",
         });
-        setTimeout(() => expireOtp(req.query.mail, true), 60000);
+        setTimeout(() => expireOtp(req.query.mail, true), 360000);
       }
     });
   } catch (err) {
