@@ -10,16 +10,10 @@ const UnAuthUser = require("../models/unAuthUser");
 const ForgotOtp = require("../models/forgotOtp");
 
 const transporter = nodemailer.createTransport({
-  host: "us2.smtp.mailhostbox.com",
-  secure: false,
-  tls: {
-    rejectUnauthorized: false,
-    minVersion: "TLSv1",
-  },
-  port: 25,
+  service: "gmail",
   auth: {
-    user: "verification@lorenepay.com",
-    pass: process.env.MAIL_PASS,
+    user: "lorenepay@gmail.com",
+    pass: process.env.LORENE_EMAIL,
   },
 });
 
@@ -61,7 +55,7 @@ router.post("/register", async (req, res) => {
               upperCase: false,
             });
 
-            let unAuthUser = {
+            let unAuthUser = new UnAuthUser({
               name: body.name,
               mail: body.mail,
               password: password,
@@ -70,9 +64,9 @@ router.post("/register", async (req, res) => {
               type: body.type,
               otp: await bcrypt.hash(`${otp}`, 10),
               expired: false,
-            };
+            });
 
-            await UnAuthUser.create(unAuthUser);
+            await unAuthUser.save();
 
             const mailOptions = {
               from: "verification@lorenepay.com",
@@ -167,7 +161,6 @@ router.post("/ver", async (req, res) => {
   try {
     const unAuthUser = await UnAuthUser.findOne({ mail: body.mail });
 
-    console.log(unAuthUser)
     if (!unAuthUser.expired) {
       if (await bcrypt.compare(body.otp, unAuthUser.otp)) {
         const user = {
